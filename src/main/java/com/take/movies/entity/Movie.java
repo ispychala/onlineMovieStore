@@ -1,10 +1,11 @@
 package com.take.movies.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "MOVIES")
-public class Movie {
+public class Movie implements Serializable{
     @Column(name = "ID")
     @Id
     private Integer id;

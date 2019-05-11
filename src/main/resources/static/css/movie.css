@@ -1,0 +1,41 @@
+body {
+    background-color: darkslategrey;
+}
+
+.movie {
+    display: block;
+    padding: 10px;
+    margin: 10px;
+    background-color: linen;
+    height: 150px;
+    width: 700px;
+}
+
+.details {
+    float: left;
+    width: 70%;
+}
+
+.details h3 {
+    overflow-wrap: normal;
+}
+
+.button {
+    background-color: white;
+    float: right;
+    width: 25%;
+    height: 150px;
+}
+
+.button img {
+    height: 75%;
+    align-self: center;
+    vertical-align: top;
+}
+
+.button p {
+    text-align: center;
+    color: limegreen;
+    font-family: "Arial Black";
+}
+

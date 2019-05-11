@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/movie.css" th:href="@{/css/movie.css}">
+    <title>Title</title>
+</head>
+<body>
+    <form th:object="${movie}" method="POST">
+        <table>
+            <tr>
+            <td>Genre</td>
+            <td>
+                <select>
+                    <option value="">---</option>
+                    <option th:each="g: ${genres}" th:value="${g}" th:text="${g}"/>
+                </select>
+            </td>
+                <td>
+                    <input name="submit" type="submit" value="submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <span th:each="m: ${movies}">
+        <div class="movie">
+            <div class="details">
+                <h3 th:text="${m.title} + ' (' + ${m.year} + ')'"/>
+                <p th:text="${m.category}"/>
+                <p th:text="'dir: ' + ${m.director}"/>
+                <p th:text="'cast: ' + ${m.cast}"/>
+            </div>
+            <div class="button">
+                <img th:src="@{/images/shopping-cart.png}">
+                <p th:text="${m.price}"/>
+            </div>
+        </div>
+    </span>
+</body>
+</html>
