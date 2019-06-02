@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modal</title>
+</head>
+<body>
+    <div id="movieModal" class="modal fade" role="dialog" th:fragment="modalContents">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="model">&times;</button>
+                    <h4 class="modal-title" th:text="${movie.title}">Title</h4>
+                </div>
+                <div class="model-body">
+                    <p>Movie description</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="model">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

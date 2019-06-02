@@ -4,6 +4,7 @@ import com.take.movies.dao.MovieRepository;
 import com.take.movies.entity.Movie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
@@ -24,7 +25,6 @@ public class MovieController {
     public String movies(Model model) {
         model.addAttribute(new Movie());
         model.addAttribute("movies", movieRepository.findAll());
-      //  movieRepository.getMoviesByGenre(genre);
         model.addAttribute("genres", genres);
         return "movies";
     }
@@ -41,6 +41,12 @@ public class MovieController {
         return "movies";
     }
 
+    @RequestMapping("/{id}")
+    public String movie(@PathVariable("id") Integer id, ModelMap model) {
+        Movie movie = movieRepository.getOne(id);
+        model.addAttribute("movie", movie);
+        return "modal :: modalContents";
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Movie> getAllMovies() {

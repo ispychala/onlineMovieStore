@@ -6,6 +6,12 @@
     <title>Title</title>
 </head>
 <body>
+
+    <div id="modal">
+        <h2 th:text="${movie.title}" />
+        <input type="button" value="Hide front layer" onclick="hideDescription();"/>
+    </div>
+
     <form action="#" th:action="@{/movies/search}" th:object="${movie}" method="post">
         <select th:field="*{category}">
             <option th:each="g: ${genres}" th:value="${g}" th:text="${g}"/>
@@ -13,19 +19,41 @@
         <input type="submit" value="Filter"/>
     </form>
 
-    <span th:each="m: ${movies}">
-        <div class="movie">
-            <div class="details">
-                <h3 th:text="${m.title} + ' (' + ${m.year} + ')'"/>
-                <p th:text="${m.category}"/>
-                <p th:text="'dir: ' + ${m.director}"/>
-                <p th:text="'cast: ' + ${m.cast}"/>
-            </div>
-            <div class="button">
-                <img th:src="@{/images/shopping-cart.png}">
-                <p th:text="${m.price}"/>
-            </div>
+    <div id="wrapper">
+        <div id="movieList">
+            <span th:each="m: ${movies}">
+                <div class="movie">
+                    <div class="details">
+                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription();"/>
+                        <p th:text="${m.category}"/>
+                        <p th:text="'dir: ' + ${m.director}"/>
+                        <p th:text="'cast: ' + ${m.cast}"/>
+                    </div>
+                    <div class="button">
+                        <img th:src="@{/images/shopping-cart.png}">
+                        <p th:text="${m.price}"/>
+                    </div>
+                </div>
+            </span>
         </div>
-    </span>
+
+        <div class="basket" id="basket">
+            <h2>Basket</h2>
+            <p>movie list</p>
+            <p>total</p>
+            <p>ojro</p>
+            <p>ok</p>
+        </div>
+    </div>
 </body>
+
+<script type="text/javascript">
+    function showDescription() {
+        document.getElementById('modal').style.visibility='visible';
+    }
+    function hideDescription() {
+        document.getElementById('modal').style.visibility='hidden';
+    }
+</script>
+
 </html>

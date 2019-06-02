@@ -2,13 +2,22 @@ body {
     background-color: darkslategrey;
 }
 
+#wrapper {
+}
+
+#movieList {
+    display: inline-block;
+    float: left;
+    width: 60%;
+}
+
 .movie {
     display: block;
     padding: 10px;
     margin: 10px;
     background-color: linen;
     height: 150px;
-    width: 700px;
+
 }
 
 .details {
@@ -39,3 +48,26 @@ body {
     font-family: "Arial Black";
 }
 
+#basket {
+    vertical-align: top;
+    display: inline-block;
+    background-color: lightgrey;
+    border: 5px solid lightgreen;
+    padding: 10px;
+    margin: 10px;
+    width: 30%;
+}
+
+#modal {
+    position: fixed;
+    top: 250px;
+    right: 250px;
+    margin: 50px;
+    padding : 30px;
+    width: 50%;
+    height: 200px;
+    background-color: lightskyblue;
+    visibility: hidden;
+    border: 1px solid black;
+    z-index: 1;
+}
