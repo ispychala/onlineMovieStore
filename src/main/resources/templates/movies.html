@@ -24,7 +24,7 @@
             <span th:each="m: ${movies}">
                 <div class="movie">
                     <div class="details">
-                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription();"/>
+                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription(m.id);"/>
                         <p th:text="${m.category}"/>
                         <p th:text="'dir: ' + ${m.director}"/>
                         <p th:text="'cast: ' + ${m.cast}"/>
@@ -48,7 +48,7 @@
 </body>
 
 <script type="text/javascript">
-    function showDescription() {
+    function showDescription(id) {
         document.getElementById('modal').style.visibility='visible';
     }
     function hideDescription() {
