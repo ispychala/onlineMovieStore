@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/css/movie.css" th:href="@{/css/movie.css}">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-
-    <div id="modal">
-        <h2 th:text="${movie.title}" />
-        <input type="button" value="Hide front layer" th:onclick="hideDescription();"/>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">title</h4>
+                </div>
+                <div class="modal-body">
+                    <p class="movie-desc"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <form action="#" th:action="@{/movies/search}" th:object="${movie}" method="post">
@@ -23,14 +40,15 @@
         <div id="movieList">
             <span th:each="m: ${movies}">
                 <div class="movie">
-                    <div class="details">
-                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription();"/>
+                    <div class="details" th:object="${movie}">
+                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" data-toggle="modal" data-target="#myModal"
+                        th:attr="data-title=''+${m.title}+'', data-desc=''+${m.story}+''"/>
                         <p th:text="${m.category}"/>
                         <p th:text="'dir: ' + ${m.director}"/>
                         <p th:text="'cast: ' + ${m.cast}"/>
                     </div>
-                    <div class="button">
-                        <img th:src="@{/images/shopping-cart.png}">
+                    <div class="button" th:onclick="${cart.addMovieToBasket(m)}">
+                        <img th:src="@{/images/shopping-cart.png}"/>
                         <p th:text="${m.price} + ' PLN'"/>
                         <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
                     </div>
@@ -40,21 +58,25 @@
 
         <div class="basket" id="basket">
             <h2>Basket</h2>
+            <span th:each="m : ${cart.getCart()}">
+                <p th:text="${m.title}"/>
+            </span>
             <p>movie list</p>
             <p>total</p>
             <p>ojro</p>
             <p>ok</p>
         </div>
     </div>
+
+    <script>
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var title = button.data('title')
+            var desc = button.data('desc')
+            var modal = $(this)
+            modal.find('.modal-title').text(title)
+            modal.find('.movie-desc').text(desc)
+        })
+    </script>
 </body>
-
-<script type="text/javascript">
-    function showDescription() {
-        document.getElementById('modal').style.visibility='visible';
-    }
-    function hideDescription() {
-        document.getElementById('modal').style.visibility='hidden';
-    }
-</script>
-
 </html>

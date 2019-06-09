@@ -1,6 +1,7 @@
 package com.take.movies.controller;
 
 import com.take.movies.CurrencyConverter;
+import com.take.movies.ShoppingCart;
 import com.take.movies.dao.MovieRepository;
 import com.take.movies.entity.Movie;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,11 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
     private MovieRepository movieRepository;
+    private ShoppingCart shoppingCart;
 
     private List<String> genres = Arrays.asList("DRAMA", "COMEDY", "FAMILY", "ACTION", "SCI-FI", "CLASSICS");
     public MovieController(MovieRepository movieRepository) {
+        this.shoppingCart = new ShoppingCart();
         this.movieRepository = movieRepository;
     }
 
@@ -28,6 +31,7 @@ public class MovieController {
         model.addAttribute("movies", movieRepository.findAll());
         model.addAttribute("genres", genres);
         model.addAttribute("converter", CurrencyConverter.getInstance());
+        model.addAttribute("cart", new ShoppingCart());
         return "movies";
     }
 
@@ -46,7 +50,7 @@ public class MovieController {
     @RequestMapping("/{id}")
     public String movie(@PathVariable("id") Integer id, ModelMap model) {
         Movie movie = movieRepository.getOne(id);
-        model.addAttribute("movie", movie);
+        model.addAttribute("pickedMovie", movie);
         return "modal :: modalContents";
     }
 
