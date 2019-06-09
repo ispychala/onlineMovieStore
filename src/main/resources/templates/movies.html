@@ -9,7 +9,7 @@
 
     <div id="modal">
         <h2 th:text="${movie.title}" />
-        <input type="button" value="Hide front layer" onclick="hideDescription();"/>
+        <input type="button" value="Hide front layer" th:onclick="hideDescription();"/>
     </div>
 
     <form action="#" th:action="@{/movies/search}" th:object="${movie}" method="post">
@@ -24,14 +24,15 @@
             <span th:each="m: ${movies}">
                 <div class="movie">
                     <div class="details">
-                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription(m.id);"/>
+                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" th:onclick="showDescription();"/>
                         <p th:text="${m.category}"/>
                         <p th:text="'dir: ' + ${m.director}"/>
                         <p th:text="'cast: ' + ${m.cast}"/>
                     </div>
                     <div class="button">
                         <img th:src="@{/images/shopping-cart.png}">
-                        <p th:text="${m.price}"/>
+                        <p th:text="${m.price} + ' PLN'"/>
+                        <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
                     </div>
                 </div>
             </span>
@@ -48,7 +49,7 @@
 </body>
 
 <script type="text/javascript">
-    function showDescription(id) {
+    function showDescription() {
         document.getElementById('modal').style.visibility='visible';
     }
     function hideDescription() {

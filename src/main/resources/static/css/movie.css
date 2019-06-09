@@ -31,13 +31,16 @@ body {
 
 .button {
     background-color: white;
+    align-content: center;
+    child-align: middle;
     float: right;
-    width: 25%;
+    width: 100px;
     height: 150px;
+
 }
 
 .button img {
-    height: 75%;
+    height: 100px;
     align-self: center;
     vertical-align: top;
 }
@@ -46,6 +49,7 @@ body {
     text-align: center;
     color: limegreen;
     font-family: "Arial Black";
+    margin: 0;
 }
 
 #basket {

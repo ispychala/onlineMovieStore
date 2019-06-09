@@ -15,6 +15,6 @@ public class CurrencyConverter {
     private double eur = 4.26;
 
     public double convertToEur(double pln) {
-        return this.eur * pln;
+        return pln / this.eur;
     }
 }

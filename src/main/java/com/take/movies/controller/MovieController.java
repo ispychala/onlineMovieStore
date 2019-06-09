@@ -1,5 +1,6 @@
 package com.take.movies.controller;
 
+import com.take.movies.CurrencyConverter;
 import com.take.movies.dao.MovieRepository;
 import com.take.movies.entity.Movie;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class MovieController {
         model.addAttribute(new Movie());
         model.addAttribute("movies", movieRepository.findAll());
         model.addAttribute("genres", genres);
+        model.addAttribute("converter", CurrencyConverter.getInstance());
         return "movies";
     }
 
