@@ -39,7 +39,7 @@ public class MovieController {
 
     @PostMapping("/search")
     public String listByGenre(@ModelAttribute("movie") Movie movie, Model model) {
-        if (movie.getCategory() != null) {
+        if (!movie.getCategory().equals("")) {
             List<Movie> movies = movieRepository.getMoviesByGenre(movie.getCategory());
             model.addAttribute("movies", movies);
         } else {

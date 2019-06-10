@@ -1,95 +1,113 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="../static/css/movie.css" th:href="@{/css/movie.css}">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-</head>
-<body>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">title</h4>
-                </div>
-                <div class="modal-body">
-                    <p class="movie-desc"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../static/css/movie.css" th:href="@{/css/movie.css}">
+        <title>Title</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <h1>Online Movie Shop</h1>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p class="movie-desc"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <form action="#" th:action="@{/movies/search}" th:object="${movie}" method="post">
-        <select th:field="*{category}">
-            <option th:each="g: ${genres}" th:value="${g}" th:text="${g}"/>
-        </select>
-        <input type="submit" value="Filter"/>
-    </form>
+        <form class="form-inline well" action="#" th:action="@{/movies/search}" th:object="${movie}" method="post">
+            <div class="form-group">
+                <label for="selectL">Select a category: </label>
+                <select id="selectL" class="form-control" th:field="*{category}">
+                    <option th:text="'ALL'" th:value="''"/>
+                    <option th:each="g: ${genres}" th:value="${g}" th:text="${g}"/>
+                </select>
+                <input class="btn btn-default" type="submit" value="Filter"/>
+            </div>
+        </form>
 
-    <div id="wrapper">
-        <div id="movieList">
-            <span th:each="m: ${movies}">
-                <div class="movie">
-                    <div class="details" th:object="${movie}">
-                        <h3 th:text="${m.title} + ' (' + ${m.year} + ')'" data-toggle="modal" data-target="#myModal"
-                        th:attr="data-title=''+${m.title}+'', data-desc=''+${m.story}+''"/>
-                        <p th:text="${m.category}"/>
-                        <p th:text="'dir: ' + ${m.director}"/>
-                        <p th:text="'cast: ' + ${m.cast}"/>
-                    </div>
-                    <div class="button">
-                        <form action="#" th:action="@{'/movies/add/' + ${m.id}}" method="post">
-                            <img th:src="@{/images/shopping-cart.png}"/>
-                            <p th:text="${m.price} + ' PLN'"/>
-                            <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
-                            <input type="submit" value="Buy">
-                        </form>
-                    </div>
-                </div>
-            </span>
-        </div>
+        <div id="wrapper">
+            <div id="movieList">
+                <table class="table">
+                    <tbody>
+                        <span th:each="m: ${movies}">
+                            <tr>
+                                <td data-toggle="modal" data-target="#myModal"
+                                    th:attr="data-title=''+${m.title}+'', data-desc=''+${m.story}+''">
+                                    <h3 th:text="${m.title} + ' (' + ${m.year} + ')'"/>
+                                    <p th:text="${m.category}"/>
+                                    <p th:text="'dir: ' + ${m.director}"/>
+                                    <p th:text="'cast: ' + ${m.cast}"/>
+                                </td>
+                                <td>
+                                    <form action="#" th:action="@{'/movies/add/' + ${m.id}}" method="post">
+                                        <!-- <img th:src="@{/images/shopping-cart.png}"/>-->
+                                        <p th:text="${m.price} + ' PLN'"/>
+                                        <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
+                                        <input class="btn btn-block btn-primary btn-default" type="submit" value="Add to cart"/>
+                                    </form>
+                                </td>
+                            </tr>
+                        </span>
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="basket" id="basket">
-            <h2>Basket</h2>
-            <table class="table table-hover">
-                <tbody>
-                    <span th:each="m : ${cart.getCart()}">
+            <div class="basket" id="basket">
+                <h2 class="text-center">Shopping cart</h2>
+                <table class="table table-hover">
+                    <tbody>
+                        <span th:each="m : ${cart.getCart()}">
+                            <tr>
+                                <form action="#" th:action="@{'/movies/delete/' + ${m.id}}" method="post">
+                                    <td th:text="${m.title}"/>
+                                    <td th:text="${m.price} + 'PLN'"/>
+                                    <td><input type="submit" value="Remove"></td>
+                                </form>
+                            </tr>
+                        </span>
+                    </tbody>
+                </table>
+
+                <table class="table table-condensed">
+                    <tbody>
                         <tr>
-                            <form action="#" th:action="@{'/movies/delete/' + ${m.id}}" method="post">
-                                <td th:text="${m.title}"/>
-                                <td th:text="${m.price} + 'PLN'"/>
-                                <td><input type="submit" value="Remove"></td>
-                            </form>
+                            <td><h4 th:text="'Total: '"/></td>
+                            <td class="text-right">
+                                <h4 th:text="${cart.cartTotal()} + ' PLN'"/>
+                                <h4 th:text="${#numbers.formatDecimal(converter.convertToEur(cart.cartTotal()),1,2,'POINT')} + ' EUR'"/>
+                            </td>
                         </tr>
-                    </span>
-                </tbody>
-            </table>
-            <p th:text="'Total: ' + ${cart.cartTotal()} + 'PLN'"/>
-            <p th:text="'       ' + ${#numbers.formatDecimal(converter.convertToEur(cart.cartTotal()),1,2,'POINT')} + 'EUR'"/>
+                    </tbody>
+                </table>
 
-            <button class="btn" th:text="Accept" value="Buy"/>
+                <button class="btn" th:text="Accept" value="Buy"/>
+            </div>
         </div>
-    </div>
 
-    <script>
-        $('#myModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var title = button.data('title')
-            var desc = button.data('desc')
-            var modal = $(this)
-            modal.find('.modal-title').text(title)
-            modal.find('.movie-desc').text(desc)
-        })
-    </script>
-</body>
+        <script>
+            $('#myModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var title = button.data('title')
+                var desc = button.data('desc')
+                var modal = $(this)
+                modal.find('.modal-title').text(title)
+                modal.find('.movie-desc').text(desc)
+            })
+        </script>
+    </body>
 </html>
