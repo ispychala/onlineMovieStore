@@ -47,16 +47,19 @@
                         <p th:text="'dir: ' + ${m.director}"/>
                         <p th:text="'cast: ' + ${m.cast}"/>
                     </div>
-                    <div class="button" th:onclick="${cart.addMovieToBasket(m)}">
-                        <img th:src="@{/images/shopping-cart.png}"/>
-                        <p th:text="${m.price} + ' PLN'"/>
-                        <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
+                    <div class="button">
+                        <form action="#" th:action="@{'/movies/add/' + ${m.id}}" method="post">
+                            <img th:src="@{/images/shopping-cart.png}"/>
+                            <p th:text="${m.price} + ' PLN'"/>
+                            <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
+                            <input type="submit" value="Buy">
+                        </form>
                     </div>
                 </div>
             </span>
         </div>
 
-        <div class="basket" id="basket">
+        <div class="basket" id="basket" th:object="${shoppingCart}">
             <h2>Basket</h2>
             <span th:each="m : ${cart.getCart()}">
                 <p th:text="${m.title}"/>

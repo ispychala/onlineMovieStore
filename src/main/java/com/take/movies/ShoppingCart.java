@@ -2,19 +2,26 @@ package com.take.movies;
 
 import com.take.movies.entity.Movie;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import javax.persistence.Entity;
+import java.util.*;
 
 public class ShoppingCart {
 
-    private HashSet<Movie> cart;
+    private Set<Movie> cart;
 
     public ShoppingCart() {
-        this.cart = new HashSet<>();
+        this.cart = new LinkedHashSet<>();
     }
 
-    public HashSet<Movie> getCart() {
+    /*public static ShoppingCart getInstance() {
+        return SingletonHolder.INSTANCE;
+    }
+
+    private static class SingletonHolder {
+        private static final ShoppingCart INSTANCE = new ShoppingCart();
+    }
+*/
+    public Set<Movie> getCart() {
         return cart;
     }
 

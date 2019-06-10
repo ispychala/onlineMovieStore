@@ -18,11 +18,13 @@ import java.util.List;
 public class MovieController {
     private MovieRepository movieRepository;
     private ShoppingCart shoppingCart;
+    private CurrencyConverter currencyConverter;
 
     private List<String> genres = Arrays.asList("DRAMA", "COMEDY", "FAMILY", "ACTION", "SCI-FI", "CLASSICS");
     public MovieController(MovieRepository movieRepository) {
         this.shoppingCart = new ShoppingCart();
         this.movieRepository = movieRepository;
+        this.currencyConverter = CurrencyConverter.getInstance();
     }
 
     @GetMapping
@@ -30,8 +32,8 @@ public class MovieController {
         model.addAttribute(new Movie());
         model.addAttribute("movies", movieRepository.findAll());
         model.addAttribute("genres", genres);
-        model.addAttribute("converter", CurrencyConverter.getInstance());
-        model.addAttribute("cart", new ShoppingCart());
+        model.addAttribute("converter", currencyConverter);
+        model.addAttribute("cart", shoppingCart);
         return "movies";
     }
 
@@ -44,19 +46,20 @@ public class MovieController {
             model.addAttribute("movies", movieRepository.findAll());
         }
         model.addAttribute("genres", genres);
+        model.addAttribute("converter", currencyConverter);
+        model.addAttribute("cart", shoppingCart);
         return "movies";
     }
 
-    @RequestMapping("/{id}")
-    public String movie(@PathVariable("id") Integer id, ModelMap model) {
-        Movie movie = movieRepository.getOne(id);
-        model.addAttribute("pickedMovie", movie);
-        return "modal :: modalContents";
-    }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
-    }
+    @RequestMapping(value = "/add/{id}", method = RequestMethod.POST)
+    public String addToBasket(@PathVariable("id") Integer id, Model model) {
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if(movie != null) {
+            shoppingCart.addMovieToBasket(movie);
+        }
 
+        //model.addAttribute("reservations", reservationRepository.findAll());
+        return "redirect:/movies";
+    }
 }
