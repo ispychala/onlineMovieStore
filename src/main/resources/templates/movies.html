@@ -59,15 +59,25 @@
             </span>
         </div>
 
-        <div class="basket" id="basket" th:object="${shoppingCart}">
+        <div class="basket" id="basket">
             <h2>Basket</h2>
-            <span th:each="m : ${cart.getCart()}">
-                <p th:text="${m.title}"/>
-            </span>
-            <p>movie list</p>
-            <p>total</p>
-            <p>ojro</p>
-            <p>ok</p>
+            <table class="table table-hover">
+                <tbody>
+                    <span th:each="m : ${cart.getCart()}">
+                        <tr>
+                            <form action="#" th:action="@{'/movies/delete/' + ${m.id}}" method="post">
+                                <td th:text="${m.title}"/>
+                                <td th:text="${m.price} + 'PLN'"/>
+                                <td><input type="submit" value="Remove"></td>
+                            </form>
+                        </tr>
+                    </span>
+                </tbody>
+            </table>
+            <p th:text="'Total: ' + ${cart.cartTotal()} + 'PLN'"/>
+            <p th:text="'       ' + ${#numbers.formatDecimal(converter.convertToEur(cart.cartTotal()),1,2,'POINT')} + 'EUR'"/>
+
+            <button class="btn" th:text="Accept" value="Buy"/>
         </div>
     </div>
 

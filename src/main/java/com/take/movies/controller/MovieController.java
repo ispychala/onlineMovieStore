@@ -58,8 +58,15 @@ public class MovieController {
         if(movie != null) {
             shoppingCart.addMovieToBasket(movie);
         }
+        return "redirect:/movies";
+    }
 
-        //model.addAttribute("reservations", reservationRepository.findAll());
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String removeFromBasket(@PathVariable("id") Integer id, Model model) {
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if(movie != null) {
+            shoppingCart.removeMovieFromBasket(movie);
+        }
         return "redirect:/movies";
     }
 }

@@ -13,20 +13,8 @@ public class ShoppingCart {
         this.cart = new LinkedHashSet<>();
     }
 
-    /*public static ShoppingCart getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
-    private static class SingletonHolder {
-        private static final ShoppingCart INSTANCE = new ShoppingCart();
-    }
-*/
     public Set<Movie> getCart() {
         return cart;
-    }
-
-    public List<Movie> getCartAsList() {
-        return new ArrayList<Movie>(this.cart);
     }
 
     public void addMovieToBasket(Movie m) {
@@ -35,7 +23,14 @@ public class ShoppingCart {
     }
 
     public void removeMovieFromBasket(Movie m) {
-        this.cart.remove(m);
+        Iterator<Movie> it = cart.iterator();
+        while (it.hasNext()) {
+            Movie tmpM = it.next();
+            if (tmpM.getId() == m.getId()) {
+                it.remove();
+                break;
+            }
+        }
     }
 
     public double cartTotal() {
