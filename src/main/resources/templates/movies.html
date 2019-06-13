@@ -46,19 +46,19 @@
                     <tbody>
                         <span th:each="m: ${movies}">
                             <tr>
-                                <td data-toggle="modal" data-target="#myModal"
+                                <td style="padding-left: 25px;" data-toggle="modal" data-target="#myModal"
                                     th:attr="data-title=''+${m.title}+'', data-desc=''+${m.story}+''">
                                     <h3 th:text="${m.title} + ' (' + ${m.year} + ')'"/>
                                     <p th:text="${m.category}"/>
                                     <p th:text="'dir: ' + ${m.director}"/>
                                     <p th:text="'cast: ' + ${m.cast}"/>
                                 </td>
-                                <td>
+                                <td style="padding: 25px;">
                                     <form action="#" th:action="@{'/movies/add/' + ${m.id}}" method="post">
                                         <!-- <img th:src="@{/images/shopping-cart.png}"/>-->
-                                        <p th:text="${m.price} + ' PLN'"/>
-                                        <p th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
-                                        <input class="btn btn-block btn-primary btn-default" type="submit" value="Add to cart"/>
+                                        <h4 class="text-info text-right" th:text="${m.price} + ' PLN'"/>
+                                        <h4 class="text-info text-right" th:text="${#numbers.formatDecimal(converter.convertToEur(m.price),1,2,'POINT')} + ' EUR'"/>
+                                        <input style="width: 100px; float: right;" class="btn btn-block btn-primary btn-default" type="submit" value="Add to cart"/>
                                     </form>
                                 </td>
                             </tr>
@@ -67,24 +67,28 @@
                 </table>
             </div>
 
-            <div class="basket" id="basket">
-                <h2 class="text-center">Shopping cart</h2>
-                <table class="table table-hover">
-                    <tbody>
+            <div class="panel panel-success" id="basket">
+                <div class="panel-heading">
+                    <h3>Shopping cart</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <tbody>
                         <span th:each="m : ${cart.getCart()}">
                             <tr>
                                 <form action="#" th:action="@{'/movies/delete/' + ${m.id}}" method="post">
                                     <td th:text="${m.title}"/>
                                     <td th:text="${m.price} + 'PLN'"/>
-                                    <td><input type="submit" value="Remove"></td>
+                                    <td><input style="float: right;" class="btn btn-block btn-outline-primary btn-default" type="submit" value="Remove"></td>
                                 </form>
                             </tr>
                         </span>
-                    </tbody>
-                </table>
-
-                <table class="table table-condensed">
-                    <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <table class="table table-condensed">
+                        <tbody>
                         <tr>
                             <td><h4 th:text="'Total: '"/></td>
                             <td class="text-right">
@@ -92,10 +96,10 @@
                                 <h4 th:text="${#numbers.formatDecimal(converter.convertToEur(cart.cartTotal()),1,2,'POINT')} + ' EUR'"/>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-
-                <button class="btn" th:text="Accept" value="Buy"/>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success btn-block" th:text="'Proceed to checkout'" value="Buy"/>
+                </div>
             </div>
         </div>
 

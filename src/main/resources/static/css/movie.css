@@ -55,8 +55,8 @@ body {
 #basket {
     vertical-align: top;
     display: inline-block;
-    background-color: lightgrey;
-    border: 5px solid lightgreen;
+  /*  background-color: lightgrey;
+    border: 5px solid lightgreen;*/
     padding: 10px;
     margin: 10px;
     width: 30%;
